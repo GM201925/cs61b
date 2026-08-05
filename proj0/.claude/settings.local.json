@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(javac -cp javalib/junit-4.12.jar:javalib/hamcrest-core-1.3.jar:javalib/ucb.jar game2048/Model.java game2048/Board.java game2048/Tile.java game2048/Side.java game2048/TestUtils.java game2048/TestUpOnly.java game2048/TestModel.java game2048/TestEmptySpace.java game2048/TestMaxTileExists.java game2048/TestAtLeastOneMoveExists.java)",
+      "Bash(java -cp javalib/junit-4.12.jar:javalib/hamcrest-core-1.3.jar:javalib/ucb.jar:. org.junit.runner.JUnitCore game2048.TestUpOnly game2048.TestModel game2048.TestEmptySpace game2048.TestMaxTileExists game2048.TestAtLeastOneMoveExists)"
+    ]
+  }
+}
