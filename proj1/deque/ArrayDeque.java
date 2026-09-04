@@ -9,14 +9,14 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
-        nextFirst = array.length;
+        nextFirst = array.length - 1;
         nextLast = 0;
     }
 
     /** Resize the array. */
     private void resize(int capacity) {
         T[] tmp = (T[]) new Object[capacity];
-        int first = (nextFirst + 1 + array.length) % array.length;
+        int first = (nextFirst + 1) % array.length;
         for (int i = 0; i < size; ++i) {
             int index = (first + i) % array.length;
             tmp[i] = array[index];
