@@ -9,14 +9,14 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
-        nextFirst = 0;
+        nextFirst = array.length;
         nextLast = 0;
     }
 
     /** Resize the array. */
     private void resize(int capacity) {
         T[] tmp = (T[]) new Object[capacity];
-        int first = (nextFirst - 1 + array.length) % array.length;
+        int first = (nextFirst + 1 + array.length) % array.length;
         for (int i = 0; i < size; ++i) {
             int index = (first + i) % array.length;
             tmp[i] = array[index];
@@ -25,7 +25,7 @@ public class ArrayDeque<T> {
         nextFirst = array.length - 1;
         nextLast = size;
     }
-    
+
     /** Adds an item of type T to the front of the deque. */
     public void addFirst(T item) {
         if (size == array.length) {
@@ -64,7 +64,7 @@ public class ArrayDeque<T> {
         int first = (nextFirst + 1) % array.length;
         for (int i = 0; i < size; ++i) {
             int index = (first + i) % array.length;
-            System.out.print(array[index]);
+            System.out.print(array[index] + " ");
         }
         System.out.println();
     }
@@ -74,6 +74,9 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      */
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         int first = (nextFirst + 1) % array.length;
         nextFirst = first;
         size -= 1;
@@ -92,6 +95,9 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      */
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         int last = (nextLast - 1 + array.length) % array.length;
         nextLast = last;
         size -= 1;
@@ -110,7 +116,7 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      */
     public T get(int index) {
-        if (index >= size) {
+        if (index >= size || index < 0) {
             // No such item exists.
             return null;
         }
