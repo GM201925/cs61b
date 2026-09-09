@@ -1,6 +1,9 @@
 package deque;
 
-public class ArrayDeque<T> {
+
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T> {
     private T[] array;
     private int size;
     private int nextFirst;
@@ -27,6 +30,7 @@ public class ArrayDeque<T> {
     }
 
     /** Adds an item of type T to the front of the deque. */
+    @Override
     public void addFirst(T item) {
         if (size == array.length) {
             resize(size * 2);
@@ -37,6 +41,7 @@ public class ArrayDeque<T> {
     }
 
     /** Adds an item to the back of the deque. */
+    @Override
     public void addLast(T item) {
         if (size == array.length) {
             resize(size * 2);
@@ -46,12 +51,8 @@ public class ArrayDeque<T> {
         nextLast = (nextLast + 1) % array.length;
     }
 
-    /** Returns true if the deque is empty, false otherwise. */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     /** Return the number of items in the deque. */
+    @Override
     public int size() {
         return size;
     }
@@ -60,6 +61,7 @@ public class ArrayDeque<T> {
      * Prints the items in the deque from first to last, separated by a space.
      * Once all the items have been printed, print out a new line.
      */
+    @Override
     public void printDeque() {
         int first = (nextFirst + 1) % array.length;
         for (int i = 0; i < size; ++i) {
@@ -73,6 +75,7 @@ public class ArrayDeque<T> {
      * Removes and returns the item at the front of the deque.
      * If no such item exists, returns null.
      */
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -94,6 +97,7 @@ public class ArrayDeque<T> {
      * Removes and returns the item at the back of the deque.
      * If no such item exists, returns null.
      */
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -115,6 +119,7 @@ public class ArrayDeque<T> {
      * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null.
      */
+    @Override
     public T get(int index) {
         if (index >= size || index < 0) {
             // No such item exists.
@@ -123,5 +128,57 @@ public class ArrayDeque<T> {
         int first = (nextFirst + 1) % array.length;
         index = (first + index) % array.length;
         return array[index];
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int visitNum;
+        public ArrayDequeIterator() {
+            visitNum = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return visitNum < size;
+        }
+
+        @Override
+        public T next() {
+            T returnItem = get(visitNum);
+            visitNum += 1;
+            return returnItem;
+        }
+
+    }
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    /**
+     * Returns whether or not the parameter o is equal to the Deque.
+     * o is considered equal if it is a Deque and if it contains the same
+     * contents (as goverened by the generic T’s equals method) in the same order.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof Deque<?>) {
+            Deque<?> deque = (Deque<?>) o;
+            if (this.size() != deque.size()) {
+                return false;
+            }
+
+            Iterator<T> mine = iterator();
+            Iterator<?> theirs = deque.iterator();
+            while (mine.hasNext()) {
+                if (!java.util.Objects.equals(mine.next(), theirs.next())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }
