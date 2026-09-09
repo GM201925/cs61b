@@ -1,6 +1,6 @@
 package deque;
 
-public interface Deque<Type> extends Iterable<Type> {
+public interface Deque<Type> {
     public void addFirst(Type item);
     public void addLast(Type item);
     public int size();

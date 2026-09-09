@@ -3,7 +3,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] array;
     private int size;
     private int nextFirst;
@@ -171,11 +171,12 @@ public class ArrayDeque<T> implements Deque<T> {
             }
 
             Iterator<T> mine = iterator();
-            Iterator<?> theirs = deque.iterator();
+            int i = 0;
             while (mine.hasNext()) {
-                if (!java.util.Objects.equals(mine.next(), theirs.next())) {
+                if (!java.util.Objects.equals(mine.next(), deque.get(i))) {
                     return false;
                 }
+                i += 1;
             }
             return true;
         }
