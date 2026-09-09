@@ -7,9 +7,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     /** Node. */
     private class Node {
-        public T item;
-        public Node prev;
-        public Node next;
+        private T item;
+        private Node prev;
+        private Node next;
 
         /** Constructor. */
         Node(T i, Node prev, Node next) {
@@ -142,7 +142,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     private class LinkedListDequeIterator implements Iterator<T> {
         private Node current;
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             current = sentinel.next;
         }
 

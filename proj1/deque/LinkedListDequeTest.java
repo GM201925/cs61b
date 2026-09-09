@@ -134,7 +134,7 @@ public class LinkedListDequeTest {
         ad3.addFirst(true);
 
         String s1 = ad1.removeFirst();
-        double d1= ad2.removeFirst();
+        double d1 = ad2.removeFirst();
         boolean b1 = ad3.removeFirst();
 
     }
