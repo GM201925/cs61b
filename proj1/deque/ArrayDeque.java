@@ -132,7 +132,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int visitNum;
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             visitNum = 0;
         }
 
