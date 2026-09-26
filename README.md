@@ -26,3 +26,14 @@
 在MaxArrayDeque中，我通过继承已经实现的ArrayDeque，仅增加查找最大元素的功能，并通过Comparator支持不同的比较规则，减少重复代码。
 
 ## 2. 哪些部分体现了我的Debug能力？
+### 2.1. 测试
+先通过测试检测问题，也可以顺便定位到需要debug的位置，本项目的`LinkedListDequeTest.java`就对 LinkedListDeque 和 ArrayDeque 进行了测试，其中最后的随机测试以及ArrayDeque部分的测试是我写的，随机对比测试让 ArrayDeque 和 LinkedListDeque 执行相同的随机操作，并比较队列大小及相关操作的返回值。
+相比只检查几个手动构造的例子，随机测试能够检查更多操作组合，有助于发现连续操作后出现的错误。
+
+此外，本项目的EC中，我实现了一个与参考实现对比发现错误的autograder，为了让测试失败后能获得具体的排查线索，我使用 StringBuilder 持续记录实际执行的操作及其参数，并将操作序列作为断言失败时的提示信息。这样不仅能够发现结果不一致，还能知道经过哪些操作后出现了错误。
+
+下面举例做project过程中遇到的问题以及如何解决的
+### 2.2 构造函数
+在测试LinkedListDeque时，测试失败，而且连实际得到的是什么都没有打印出来，对写的测试进行调试，发现创建LinkedListDeque时，并没有按照构造函数的要求让`sentinel`指向新建的Node，而是直接变成了null，在创建LinkedListDeque处打断点，step into后发现并未进入我写的构造函数，所以定位到构造函数出现问题，后来发现构造函数的signature写成了`public void LinkedListDeque()`，于是去掉void
+
+去掉void后，在创建LinkedListDeque处打断点调试，先step over看构造函数是否成功修复，成功创建了sentinel，但是它指向的Node的 `prev` 和 `next` 都是null而没有指向自己，再次step into进入Node的构造函数，发现传入的 `prev` 和 `next` 都是null而不是sentinel，于是定位到构造函数的参数写错，发现原本写的是 `sentinel = new Node(null, sentinel, sentinel);` ，在创建Node时sentinel还没被赋值，所以默认是null，修改后问题解决。
